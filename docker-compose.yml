@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  development:
+    build:
+      context: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./development:/usr/share/nginx/html
+    container_name: jeu_dev
+
+  production:
+    build:
+      context: .
+    ports:
+      - "8081:80"
+    volumes:
+      - ./production:/usr/share/nginx/html
+    depends_on:
+      - backend
+    container_name: jeu_prod
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./production/db:/app/db
+    container_name: jeu_backend
